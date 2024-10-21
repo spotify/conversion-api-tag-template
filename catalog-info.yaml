@@ -1,0 +1,7 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: conversion-api-tag-template
+spec:
+  type: library
+  owner: adp-measurement
