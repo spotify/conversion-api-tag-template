@@ -2,5 +2,5 @@ homepage: "https://open.spotify.com"
 documentation: "https://developer.spotify.com/documentation/web-api"
 versions:
   # Latest version
-  - sha: aa9d16ff7efbdaacbb6b6c3645841baa94dd3352
+  - sha: 13efe76e5aeec39197433ea409b75b9cb70ce604
     changeNotes: Initial release.
