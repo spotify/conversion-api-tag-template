@@ -14,6 +14,11 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Spotify CAPI 3P Integration Tag",
+  "categories": [
+        "CONVERSION",
+        "ADVERTISING",
+        "ANALYTICS"
+        ],
   "brand": {
     "id": "brand_dummy",
     "displayName": ""
