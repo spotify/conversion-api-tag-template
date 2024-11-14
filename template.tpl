@@ -15,10 +15,10 @@ ___INFO___
   "securityGroups": [],
   "displayName": "Spotify CAPI 3P Integration Tag",
   "categories": [
-        "CONVERSION",
-        "ADVERTISING",
-        "ANALYTICS"
-        ],
+          "CONVERSION",
+          "ADVERTISING",
+          "ANALYTICS"
+          ],
   "brand": {
     "id": "brand_dummy",
     "displayName": "",
@@ -78,52 +78,52 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Event Name",
     "selectItems": [
       {
-        "value": "ADD_CART",
-        "displayValue": "ADD CART"
+        "value": "Add_Cart",
+        "displayValue": "Add Cart"
       },
       {
-        "value": "START_CHECKOUT",
-        "displayValue": "START CHECKOUT"
+        "value": "Start_Checkout",
+        "displayValue": "Start Checkout"
       },
       {
-        "value": "LEAD",
-        "displayValue": "LEAD"
+        "value": "Lead",
+        "displayValue": "Lead"
       },
       {
-        "value": "PAGE_VIEW",
-        "displayValue": "PAGE VIEW"
+        "value": "Page_View",
+        "displayValue": "Page View"
       },
       {
-        "value": "PURCHASE",
-        "displayValue": "PURCHASE"
+        "value": "Purchase",
+        "displayValue": "Purchase"
       },
       {
-        "value": "SIGN_UP",
-        "displayValue": "SIGN UP"
+        "value": "Sign_Up",
+        "displayValue": "Sign Up"
       },
       {
-        "value": "VIEW_PRODUCT",
-        "displayValue": "VIEW PRODUCT"
+        "value": "View_Product",
+        "displayValue": "View Product"
       },
       {
-        "value": "CUSTOM_EVENT_1",
-        "displayValue": "CUSTOM EVENT 1"
+        "value": "Custom_Event_1",
+        "displayValue": "Custom Event 1"
       },
       {
-        "value": "CUSTOM_EVENT_2",
-        "displayValue": "CUSTOM EVENT 2"
+        "value": "Custom_Event_2",
+        "displayValue": "Custom Event 2"
       },
       {
-        "value": "CUSTOM_EVENT_3",
-        "displayValue": "CUSTOM EVENT 3"
+        "value": "Custom_Event_3",
+        "displayValue": "Custom Event 3"
       },
       {
-        "value": "CUSTOM_EVENT_4",
-        "displayValue": "CUSTOM EVENT 4"
+        "value": "Custom Event 4",
+        "displayValue": "Custom Event 4"
       },
       {
-        "value": "CUSTOM_EVENT_5",
-        "displayValue": "CUSTOM EVENT 5"
+        "value": "Custom_Event_5",
+        "displayValue": "Custom Event 5"
       }
     ],
     "simpleValueType": true,
