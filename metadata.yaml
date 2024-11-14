@@ -2,8 +2,11 @@ homepage: "https://open.spotify.com"
 documentation: "https://developer.spotify.com/documentation/web-api"
 versions:
   # Latest version
+  - sha: ef7b3c1daa5cfcba26b845f183716c6d73a53ec2
+    changeNotes: Correcting event name values.
+  # Previous version
   - sha: 9cde8c92d4a031f777334721cdbdc4b09d53a902
     changeNotes: Adding logo image and helper text for fields
-  # Previous version
+  # Older versions
   - sha: 13efe76e5aeec39197433ea409b75b9cb70ce604
     changeNotes: Initial release.
