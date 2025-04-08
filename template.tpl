@@ -179,7 +179,7 @@ ___TEMPLATE_PARAMETERS___
       }
     ],
     "defaultValue": "inherit",
-    "help": "Describes the conversion event. Inherit from client, use standard events, or create custom names."
+    "help": "Describes the conversion event. Choose to inherit from client, use our standard event names, or create a custom name."
   },
   {
     "type": "SELECT",
@@ -243,16 +243,12 @@ ___TEMPLATE_PARAMETERS___
             "type": "SELECT",
             "selectItems": [
               {
-                "value": "event_id",
-                "displayValue": "Event ID"
-              },
-              {
                 "value": "event_time",
                 "displayValue": "Event Time"
               },
               {
-                "value": "event_source_url",
-                "displayValue": "Event Source URL"
+                "value": "event_id",
+                "displayValue": "Event ID"
               },
               {
                 "value": "amount",
@@ -269,6 +265,10 @@ ___TEMPLATE_PARAMETERS___
               {
                 "value": "content_category",
                 "displayValue": "Content Category"
+              },
+              {
+                "value": "event_source_url",
+                "displayValue": "Event Source URL"
               }
             ]
           },
@@ -398,7 +398,7 @@ function sendConversionData(endpointUrl, requestHeaders, postBody) {
     } else{
       logToConsole('Failed to send event: ' + response.body);
       data.gtmOnFailure();
-    } 
+    }
   }).catch(error => {
     logToConsole('Error sending event, caused by: ' + error.reason);
     data.gtmOnFailure();
@@ -407,31 +407,31 @@ function sendConversionData(endpointUrl, requestHeaders, postBody) {
 }
 
 function validUserData(event) {
-  var data_is_valid_flag = true; 
+  var data_is_valid_flag = true;
   if (!event || !event.user_data) {
     logToConsole('INVALID USER DATA: No user data object found in event');
     return false;
   }
-  
+
   const userData = event.user_data;
   let hasValidIdentifier = false;
-  
+
   if (userData.ip_address) {
     hasValidIdentifier = true;
   }
-  
+
   if (userData.device_id) {
     hasValidIdentifier = true;
   }
-  
+
   if (userData.hashed_emails && userData.hashed_emails.length > 0) {
     hasValidIdentifier = true;
   }
-  
+
   if (userData.hashed_phone_number) {
     hasValidIdentifier = true;
   }
-  
+
  if (hasValidIdentifier) {
     return true;
   } else {
@@ -443,7 +443,7 @@ function validUserData(event) {
 function mapEvent(eventData) {
   let mappedData = {};
   mappedData.event_name = getEventName(eventData);
-  
+
   let timestamp = eventData.event_time != null ? eventData.event_time : getTimestampMillis();
   mappedData.event_time = {
     seconds: formatSeconds(timestamp),
@@ -451,29 +451,30 @@ function mapEvent(eventData) {
   };
 
   mappedData.action_source = data.actionSource || 'WEB';
-  
+
   mappedData.opt_out_targeting = data.opt_out_targeting || false;
-  
+
   mappedData.event_source_url = eventData.page_location || eventData.page_referrer || getRequestHeader('referer');
-  
-  mappedData.event_id = eventData.event_id; 
 
   mappedData = addUserData(eventData, mappedData);
   mappedData = addEventDetails(eventData, mappedData);
-  
+
    if (data.serverParameters) {
     data.serverParameters.forEach(d => {
       if (d.value) {
         if(d.name === 'event_time'){
           const formattedTime = formatTime(d.value, mappedData.event_time);
           mappedData[d.name] = formattedTime;
-        }else{
+        } else if(d.name === "amount" || d.name === "content_category" || d.name === "content_name" || d.name === "currency"){
+          mappedData.event_details[d.name] = d.value;
+        }
+        else{
           mappedData[d.name] = d.value;
         }
       }
     });
   }
-  
+
   return mappedData;
 }
 
@@ -481,19 +482,19 @@ function mapEvent(eventData) {
 //to do: add fields for first and last name
 function addUserData(eventData, mappedData) {
   mappedData.user_data = {};
-  
+
   mappedData.user_data.ip_address = eventData.ip_override || "";
   mappedData.user_data.user_agent = eventData.user_agent || "";
 
-  // Pull user data if available 
+  // Pull user data if available
   if (eventData.user_data != null) {
     let userData = eventData.user_data;
-    
+
     mappedData.user_data.hashed_emails = userData.sha256_email_address ? [userData.sha256_email_address] : [];
     mappedData.user_data.hashed_phone_number = userData.sha256_phone_number || "" ;
     mappedData.user_data.device_id = userData.client_id ||  "";
   }
-  
+
    if (data.userDataParameters) {
     data.userDataParameters.forEach(d => {
       if (d.value) {
@@ -505,21 +506,16 @@ function addUserData(eventData, mappedData) {
       }
     });
   }
-  
+
   return mappedData;
 }
 
 function addEventDetails(eventData, mappedData) {
   mappedData.event_details = {};
 
-  //assuming we have currency and value being sent, but this isnt guaranteed 
+  //assuming we have currency and value being sent, but this isnt guaranteed
   mappedData.event_details.amount = eventData.value || eventData.price;
-  
   mappedData.event_details.currency = (eventData.currency != null) ? eventData.currency : "";
-  
-  mappedData.content_name = (data.contentCategory != null) ? data.contentCategory : "";
-  
-  mappedData.content_category = (data.contentName != null) ? data.contentName : ""; 
   
   return mappedData;
 
