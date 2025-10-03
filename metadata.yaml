@@ -2,12 +2,14 @@ homepage: "https://ads.spotify.com/en-US/"
 documentation: "https://www.spotify.com/us/brands/legal/advertiser-conversion-program-terms/"
 versions:
   # Latest version
+  - sha: 2e67ac88353b4ef00b05d8a38a0a39d6687aa773
+    changeNotes: Fixing custom and inherit eventName logic
+  # Previous version
   - sha: f67f0c77bae9985e0d783b92bbc8319da9b032c9
     changeNotes: Betting mapping, updating links, removing required event_id
-  # Previous version
+  # Older versions
   - sha: 31ea359f9d40c0f657669edc36499966d5511dda
     changeNotes: Adding custom and standard event names, updating validation logic
-  # Older versions
   - sha: ef7b3c1daa5cfcba26b845f183716c6d73a53ec2
     changeNotes: Correcting event name values.
   - sha: 9cde8c92d4a031f777334721cdbdc4b09d53a902
