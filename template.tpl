@@ -15,10 +15,10 @@ ___INFO___
   "securityGroups": [],
   "displayName": "Spotify CAPI 3P Integration Tag",
   "categories": [
-    "CONVERSION",
-    "ADVERTISING",
-    "ANALYTICS"
-  ],
+      "CONVERSION",
+      "ADVERTISING",
+      "ANALYTICS"
+    ],
   "brand": {
     "id": "github.com_Spotify",
     "displayName": "Spotify",
@@ -155,19 +155,6 @@ ___TEMPLATE_PARAMETERS___
             "displayValue": "Custom Event 5"
           }
         ],
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "eventNameType",
-            "paramValue": "custom",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "eventNameCustomValue",
-        "displayName": "Input Custom Event Name:",
         "simpleValueType": true,
         "enablingConditions": [
           {
@@ -363,6 +350,10 @@ if(!data.connectionId || !data.authToken) {
 
 // logic for building Conversion 3P event object and validating user data
 const conversion_event = mapEvent(eventData);
+if (!conversion_event || !conversion_event.event_name){
+  logToConsole('No conversion event was sent to CAPI.');
+  return data.gtmOnFailure();
+}
 if (!validUserData(conversion_event)){
   logToConsole('No conversion event was sent to CAPI. Please verify that user fields are provided');
   return data.gtmOnFailure();
@@ -516,13 +507,13 @@ function addEventDetails(eventData, mappedData) {
   //assuming we have currency and value being sent, but this isnt guaranteed
   mappedData.event_details.amount = eventData.value || eventData.price;
   mappedData.event_details.currency = (eventData.currency != null) ? eventData.currency : "";
-  
+
   return mappedData;
 
 }
 
 function getEventName(eventData) {
-  if (data.inheritEventName === 'inherit') {
+  if (data.eventNameType === 'inherit') {
     let eventName = eventData.event_name;
     let gaToSnapEventName = {
       'page_view': 'Page_View',
@@ -536,17 +527,16 @@ function getEventName(eventData) {
       'gtm4wp.addProductToCartEEC': 'Add_Cart',
       'gtm4wp.productClickEEC': 'View_Product',
       'gtm4wp.orderCompletedEEC': 'Purchase'
-    }; 
-     
+    };
+
     if(gaToSnapEventName[eventName]) {
       return gaToSnapEventName[eventName];
     } else {
       logToConsole('Event name "'+ eventName + '" not found in our predefined mapping. Please either create a custom event or select one of the available standard options');
-      return data.gtmOnFailure();
+      return null;
     }
   }
-  //logToConsole('Custom Event Name Value:', data.eventNameCustomValue);
-  return data.inheritEventName === 'custom' ? data.eventNameCustom : data.eventNameStandard;
+  return data.eventNameType === 'custom' ? data.eventNameCustom : data.eventNameStandard;
 }
 
 function formatSeconds(timestamp) {
